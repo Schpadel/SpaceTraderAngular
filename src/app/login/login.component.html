@@ -1,0 +1,8 @@
+<h1>Create access token to the game</h1>
+<input #symbolBox id="symbol-box"/>
+<input #factionBox id="faction-box"/>
+<button (click)="getToken(symbolBox.value, factionBox.value)">Create token!</button>
+
+<div *ngIf="token.length">
+  {{token}}
+</div>
