@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable, of} from "rxjs";
+import {ServerResponse, User} from "./User";
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,9 @@ import {map, Observable, of} from "rxjs";
 export class TokenService {
 
   private registerURL = "https://api.spacetraders.io/v2/register";
-
+  private agentURL: string = "https://api.spacetraders.io/v2/my/agent";
+  private user: User | undefined;
+  private token: string = "";
 
   constructor(private http: HttpClient) {
   }
@@ -36,4 +39,29 @@ export class TokenService {
     return this.http.post<any>(this.registerURL, body, header).pipe(map(value => value.data["token"]));
 
   }
+
+  loginWithToken(token: string): Observable<User> {
+    this.token = token;
+    localStorage.setItem("token", token);
+    const header= {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    }
+
+
+    return this.http.get<ServerResponse>(this.agentURL, header).pipe(map(value => this.user = value.data));
+
+    }
+
+  getUser(): Observable<User> {
+    let loadedToken = localStorage.getItem("token");
+    if(loadedToken) {
+
+      return this.loginWithToken(loadedToken);
+    }
+    return of();
+  }
 }
+

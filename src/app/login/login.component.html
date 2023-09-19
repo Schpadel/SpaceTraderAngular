@@ -1,4 +1,5 @@
-<h1>Create access token to the game</h1>
+
+<h1>Create new access token to the game</h1>
 <input #symbolBox id="symbol-box"/>
 <input #factionBox id="faction-box"/>
 <button (click)="getToken(symbolBox.value, factionBox.value)">Create token!</button>
@@ -6,3 +7,13 @@
 <div *ngIf="token.length">
   {{token}}
 </div>
+
+<h1>Login with existing token</h1>
+
+<input #tokenBox id="token-box"/>
+<button (click)="loginWithToken(tokenBox.value)">Login!</button>
+
+<div *ngIf="user">
+  <a routerLink="/user">User Overview</a>
+</div>
+<router-outlet></router-outlet>
