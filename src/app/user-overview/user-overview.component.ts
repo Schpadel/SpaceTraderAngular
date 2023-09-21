@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TokenService} from "../token.service";
-import {User} from "../User";
+import {User} from "../API";
 
 @Component({
   selector: 'app-user-overview',

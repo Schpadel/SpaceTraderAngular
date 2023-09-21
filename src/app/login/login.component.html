@@ -1,7 +1,12 @@
 
 <h1>Create new access token to the game</h1>
+
+<label for="symbol-box">Username:</label>
 <input #symbolBox id="symbol-box"/>
+
+<label for="faction-box">Starting Faction:</label>
 <input #factionBox id="faction-box"/>
+
 <button (click)="getToken(symbolBox.value, factionBox.value)">Create token!</button>
 
 <div *ngIf="token.length">
@@ -15,5 +20,6 @@
 
 <div *ngIf="user">
   <a routerLink="/user">User Overview</a>
+  <a routerLink="/faction">Faction Overview</a>
 </div>
 <router-outlet></router-outlet>

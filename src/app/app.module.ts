@@ -6,12 +6,14 @@ import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { UserOverviewComponent } from './user-overview/user-overview.component';
+import { FactionOverviewComponent } from './faction-overview/faction-overview.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    UserOverviewComponent
+    UserOverviewComponent,
+    FactionOverviewComponent
   ],
   imports: [
     BrowserModule,

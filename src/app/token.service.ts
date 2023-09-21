@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable, of} from "rxjs";
-import {ServerResponse, User} from "./User";
+import {Faction, UserResponse, User, FactionResponse} from "./API";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,7 @@ export class TokenService {
   private agentURL: string = "https://api.spacetraders.io/v2/my/agent";
   private user: User | undefined;
   private token: string = "";
+  private factionURL: string = "https://api.spacetraders.io/v2/factions";
 
   constructor(private http: HttpClient) {
   }
@@ -40,18 +41,22 @@ export class TokenService {
 
   }
 
+  getAuthHeader() {
+    return {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
+    };
+  }
+
   loginWithToken(token: string): Observable<User> {
     this.token = token;
     localStorage.setItem("token", token);
-    const header= {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    }
 
 
-    return this.http.get<ServerResponse>(this.agentURL, header).pipe(map(value => this.user = value.data));
+
+    return this.http.get<UserResponse>(this.agentURL, this.getAuthHeader()).pipe(map(value => value.data));
 
     }
 
@@ -62,6 +67,10 @@ export class TokenService {
       return this.loginWithToken(loadedToken);
     }
     return of();
+  }
+
+  getFactions(): Observable<Faction[]> {
+    return this.http.get<FactionResponse>(this.factionURL, this.getAuthHeader()).pipe(map(value => value.data))
   }
 }
 
